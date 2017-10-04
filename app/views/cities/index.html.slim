@@ -1,0 +1,30 @@
+h1 Listing cities
+
+.my-3
+
+ul.list-group
+  li.list-group-item
+    .d-flex.justify-content-between
+      = link_to 'Create New City', new_city_path, class: "btn btn-primary btn-sm", style: "min-width: 140px;"
+      = link_to 'Delete all records', clear_cities_path, data: { confirm: 'Are you sure?' }, method: :delete, class: "btn btn-danger btn-sm", style: "min-width: 140px;"
+      = link_to 'Download CSV', cities_path(format: :csv), class: "btn btn-primary btn-sm", style: "min-width: 140px;"
+  li.list-group-item
+    = form_tag import_cities_path, multipart: true do
+      .d-flex.justify-content-between
+        = file_field_tag :file
+        = submit_tag "Import CSV file", class: "btn btn-primary btn-sm", style: "min-width: 140px;"
+
+table.table
+  thead
+    tr
+      th City
+      th Description
+      th
+      th
+  tbody
+    - @cities.each do |city|
+      tr
+        td = city.city
+        td = city.description
+        td = link_to fa_icon("pencil-square-o"), edit_city_path(city)
+        td = link_to fa_icon("trash-o"), city, data: { confirm: 'Are you sure?' }, method: :delete
