@@ -1,30 +1,37 @@
-h1 Listing cities
+h1
+  | Listing cities
+  .d-flex.justify-content-end
+    .btn-group
+      = link_to fa_icon("plus"), new_city_path,
+        class: "btn btn-primary btn-sm", title: 'Create New City', style: "min-width: 100px;"
+      = link_to fa_icon("trash-o"), clear_cities_path, data: { confirm: 'Are you sure?' }, method: :delete,
+        class: "btn btn-danger btn-sm", title: 'Delete all records', style: "min-width: 40px;"
+      = link_to fa_icon("download"), cities_path(format: :csv),
+        class: "btn btn-primary btn-sm", title: "Download CSV file", style: "min-width: 100px;"
 
 .my-3
 
 ul.list-group
-  li.list-group-item
-    .d-flex.justify-content-between
-      = link_to 'Create New City', new_city_path, class: "btn btn-primary btn-sm", style: "min-width: 140px;"
-      = link_to 'Delete all records', clear_cities_path, data: { confirm: 'Are you sure?' }, method: :delete, class: "btn btn-danger btn-sm", style: "min-width: 140px;"
-      = link_to 'Download CSV', cities_path(format: :csv), class: "btn btn-primary btn-sm", style: "min-width: 140px;"
-  li.list-group-item
-    = form_tag import_cities_path, multipart: true do
-      .d-flex.justify-content-between
-        = file_field_tag :file
-        = submit_tag "Import CSV file", class: "btn btn-primary btn-sm", style: "min-width: 140px;"
+  = form_tag import_cities_path, multipart: true do
+    .d-flex.justify-content-end
+      = file_field_tag :file
+      = button_tag type: "submit", class: "btn btn-primary btn-sm", title: "Import CSV file", style: "min-width: 100px;" do
+        = fa_icon("upload")
 
-table.table
-  thead
-    tr
-      th City
-      th Description
-      th
-      th
-  tbody
+.m-3
+
+#city-list
+  input.search.form-control [placeholder="Search by city name"]
+  .m-2
+  ul.list-group.list
     - @cities.each do |city|
-      tr
-        td = city.city
-        td = city.description
-        td = link_to fa_icon("pencil-square-o"), edit_city_path(city)
-        td = link_to fa_icon("trash-o"), city, data: { confirm: 'Are you sure?' }, method: :delete
+      li.list-group
+        li.list-group-item.list-group-item-action.flex-column.align-items-start
+          .d-flex.w-100.justify-content-between
+            h4.city = link_to city.city, edit_city_path(city)
+            = link_to fa_icon("trash-o"), city, data: { confirm: 'Are you sure?' }, method: :delete
+          p.mb-1.description
+            = city.description
+
+javascript:
+  window.App.initCityList()

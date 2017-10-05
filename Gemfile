@@ -41,6 +41,8 @@ gem "font-awesome-rails"
 gem "simple_form"
 gem "slim-rails"
 gem "validates_timeliness", "~> 4.0"
+gem "rails-assets-listjs", source: "https://rails-assets.org"
+gem "trix"
 
 group :development, :test do
   gem "capybara", "~> 2.13"

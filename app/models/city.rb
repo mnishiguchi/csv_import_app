@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: cities
@@ -10,7 +11,7 @@
 #  updated_at  :datetime         not null
 #
 
-require 'csv'
+require "csv"
 
 class City < ApplicationRecord
   validates :city, presence: true
@@ -33,14 +34,14 @@ class City < ApplicationRecord
   end
 
   def self.to_csv
-    attribute_names = %w{ city description }
+    attribute_names = %w[city description]
     CSV.generate(headers: true) do |csv|
       # Add attribute names to the first row.
       csv << attribute_names
 
       # Add attribute values to the following rows for each record.
       # NOTE: Previously defined scopes will still be effective here.
-      all.each do |city|
+      all.find_each do |city|
         csv << city.attributes.values_at(*attribute_names)
 
         # Getting attribute values

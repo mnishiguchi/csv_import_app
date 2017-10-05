@@ -15,7 +15,7 @@ class CitiesController < ApplicationController
   # POST /cities/import
   def import
     if params[:file].blank?
-      flash.now[:info] = "Please specify a csv file"
+      flash.now[:danger] = "Please select a csv file"
       @cities = City.all.order(:city)
       render(:index) && return
     end
